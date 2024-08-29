@@ -5,7 +5,7 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card";
-  import SidebarMenu from "./Sidebarmenu";
+  import SidebarMenu from "./SidebarMenu";
   import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
   import { Button } from "@/components/ui/button";
   import { LogOut, Menu, Package2 } from "lucide-react";

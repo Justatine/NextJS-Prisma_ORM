@@ -3,11 +3,12 @@
 import { Search } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
-// import { ModeToggle } from "@/components/ui/ModeToggle";
+import { ModeToggle } from "./ModeToggle";
 
 import Notification from "./Notification";
 import MiniSidebar from "./MiniSidebar";
 import SidebarResponsive from "./SidebarResponsive";
+import { SignedIn, UserButton } from "@clerk/nextjs";
 
 export default function Header() {
   return (
@@ -26,13 +27,11 @@ export default function Header() {
         </form>
       </div>
       <Notification />
-      {/* <ModeToggle /> */}
+      <ModeToggle />
       <MiniSidebar />
-
-      {/* <Button>
-      <LogOut className="mr-2 h-4 w-4" />
-      Logout
-    </Button> */}
+      <SignedIn>
+        <UserButton showName/>
+      </SignedIn>
     </header>
   );
 }

@@ -1,8 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Package2 } from "lucide-react";
-import SidebarMenu from "./Sidebarmenu";
+import SidebarMenu from "./SidebarMenu";
 import Link from "next/link";
-import SidebarLogout from "./SidebarLogout";
 import SidebarProfile from "./SidebarProfile";
 
 export default function Sidebar() {
@@ -13,7 +12,7 @@ export default function Sidebar() {
           <Link href="/" className="flex items-center gap-2 font-semibold">
             <Package2 className="h-6 w-6" />
             <span className="text-[20px] font-bold text-center my-1 logo-font">
-              LOGICLYNXZ
+              To-Do App
             </span>
           </Link>
         </div>
@@ -23,8 +22,8 @@ export default function Sidebar() {
         </div>
         <div className="mt-auto p-4">
           <Card x-chunk="dashboard-02 -chunk-0">
-            <CardContent className="p-3">
-              <SidebarLogout />
+            <CardContent className="p-3 justify-center">
+              <small className="text-center">&copy; 2024 Justine Mark Taga-an. All rights reserved.</small>
             </CardContent>
           </Card>
         </div>

@@ -236,7 +236,7 @@ export function DataTable() {
     <div className="w-full ">
       <div className="flex items-center justify-between">
         <CardHeader>
-          <strong className="text-[30px]">Task Overview</strong>
+          <strong className="text-[30px]">Users</strong>
         </CardHeader>
         <div className="flex flex-col md:flex-row gap-2">
           <Input

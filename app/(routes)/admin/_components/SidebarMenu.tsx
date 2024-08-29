@@ -30,26 +30,26 @@ export default function SidebarMenu() {
         icon: <LayoutDashboard size={20} className="hover:animate-spin" />,
         text: "Dashboard",
       },
-      {
-        link: "/projects",
-        icon: <ClipboardList size={20} />,
-        text: "Projects",
-      },
-      {
-        link: "/members",
-        icon: <User size={20} />,
-        text: "Members",
-      },
-      {
-        link: "/messages",
-        icon: <Mail size={20} />,
-        text: "Messages",
-      },
-      {
-        link: "/file",
-        icon: <FolderKanban size={20} />,
-        text: "File Managers",
-      },
+      // {
+      //   link: "/projects",
+      //   icon: <ClipboardList size={20} />,
+      //   text: "Projects",
+      // },
+      // {
+      //   link: "/members",
+      //   icon: <User size={20} />,
+      //   text: "Members",
+      // },
+      // {
+      //   link: "/messages",
+      //   icon: <Mail size={20} />,
+      //   text: "Messages",
+      // },
+      // {
+      //   link: "/file",
+      //   icon: <FolderKanban size={20} />,
+      //   text: "File Managers",
+      // },
     ],
   };
 
