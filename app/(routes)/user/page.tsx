@@ -22,9 +22,6 @@ const UserPage = async () => {
   const UserTasks = await prismadb.tasks.findMany({
     where: {
       id: userId,
-    },
-    orderBy: {
-        created_at: "desc"
     }
   });
 

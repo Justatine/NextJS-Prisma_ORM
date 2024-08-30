@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { TaskFormValues, taskSchema } from "@/lib/validation/task";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -11,6 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { SignedIn, UserButton } from "@clerk/nextjs";
+import { useRouter } from "next/navigation"; 
+import axios from 'axios';
 
 interface AppLayoutProps {
   initialData: TaskFormValues[];
@@ -18,6 +19,7 @@ interface AppLayoutProps {
 
 export const AppLayout: React.FC<AppLayoutProps> = ({ initialData }) => {
   const [todos, setTodos] = useState<TaskFormValues[]>(initialData);
+  const router = useRouter();
 
   const form = useForm<TaskFormValues>({
     resolver: zodResolver(taskSchema),
@@ -30,10 +32,15 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ initialData }) => {
     },
   });
 
-  const onSubmit = (data: TaskFormValues) => {
-    console.log(data)
-    // setTodos((prevTodos) => [...prevTodos, data]);
-    form.reset();
+  const onSubmit = async (data: TaskFormValues) => {
+    try {
+      const response = await axios.post('/api/tasks',data)
+      console.log('res: ',response)
+      setTodos((prevTodos) => [...prevTodos, data]);
+      form.reset();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -101,7 +108,6 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ initialData }) => {
                 <Checkbox
                   id={`todo-${todo.task_id}`}
                   checked={todo.status === "Completed"}
-                  // onCheckedChange={() => handleToggleTodo(todo.task_id)}
                 />
                 <label
                   htmlFor={`todo-${todo.task_id}`}
@@ -114,6 +120,22 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ initialData }) => {
           ))}
         </ul>
       </main>
+      <footer className="bg-card py-4 px-6 sm:px-8 md:px-10 shadow w-full sm:w-3/4 md:w-1/2 mx-auto">
+        <div className="flex flex-col sm:flex-row items-center justify-between">
+          <p className="text-muted-foreground mb-2 sm:mb-0">
+            {/* {todos.filter((todo) => !todo.completed).length}  */}
+            items left
+          </p>
+          <Button
+            variant="ghost"
+            size="sm"
+            // onClick={handleClearCompleted}
+            className="text-muted-foreground hover:bg-muted"
+          >
+            Clear Completed
+          </Button>
+        </div>
+      </footer>
     </div>
   );
 };

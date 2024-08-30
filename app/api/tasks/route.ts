@@ -20,14 +20,14 @@ export async function POST(req: Request) {
 
     const task = await prismadb.tasks.create({
       data: {
-        id: userId, // Assuming `id` refers to the user's ID
+        id: userId,
         title,
         description,
-        status: "Pending", // Default status
+        status: "Pending",
       },
     });
 
-    return NextResponse.json(task);
+    return NextResponse.json({ status: 'success', message: 'Task added'});
   } catch (error) {
     console.log("[TASKS_POST]", error);
     return new NextResponse("Internal server error", { status: 500 });
