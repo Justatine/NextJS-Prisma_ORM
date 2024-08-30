@@ -1,5 +1,4 @@
 import prismadb from "@/lib/prismadb";
-import { checkRole } from "@/utils/roles";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
@@ -56,34 +55,24 @@ export async function GET(
   }
 }
 
-export async function DELETE(
-  req: Request,
-  { params }: { params: { categoryId: string } }
-) {
+export async function DELETE(req: Request) {
   try {
     const { userId } = auth();
-
-    if (!checkRole("Admin")) {
-      return new NextResponse("Unauthorized", { status: 403 });
-    }
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    if (!params.categoryId) {
-      return new NextResponse("Category id is required", { status: 400 });
-    }
+    await prismadb.tasks.deleteMany({
+      where: {
+        id: userId,
+        status: "Completed",
+      },
+    });
 
-    // const category = await prismadb.category.deleteMany({
-    //   where: {
-    //     id: params.categoryId,
-    //   },
-    // });
-
-    // return NextResponse.json(category);
+    return NextResponse.json({ status:'success', message: 'Task(s) deleted'});
   } catch (error) {
-    console.log("[CETEGORY_DELETE]", error);
+    console.log("[TASK_DELETE_ERROR]", error);
     return new NextResponse("Internal server error", { status: 500 });
   }
 }
