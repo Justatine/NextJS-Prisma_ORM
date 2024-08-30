@@ -9,30 +9,17 @@ datasource db {
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model tasks {
-  task_id     Int       @id @default(autoincrement())
-  uuid        String?   @db.Uuid
-  title       String    @db.VarChar(255)
-  description String?   @db.VarChar(255)
-  status      String?   @default("Pending") @db.VarChar(10)
-  created_at  DateTime? @default(now()) @db.Timestamptz(6)
-  updated_at  DateTime? @default(now()) @db.Timestamptz(6)
-  users       users?    @relation(fields: [uuid], references: [uuid], onDelete: NoAction, onUpdate: NoAction)
+  task_id     String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id          String          @db.VarChar(255)
+  title       String          @db.VarChar(255)
+  description String          @db.VarChar(255)
+  status      task_status?    @default(Pending)
+  created_at  DateTime        @default(now())
+  updated_at  DateTime        @updatedAt
 }
 
-model users {
-  uuid       String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  firstname  String     @db.VarChar(255)
-  lastname   String     @db.VarChar(255)
-  email      String     @db.VarChar(255)
-  password   String     @db.VarChar(255)
-  image      String?    @db.VarChar(255)
-  created_at DateTime?  @default(now()) @db.Timestamptz(6)
-  updated_at DateTime?  @default(now()) @db.Timestamptz(6)
-  role       user_role? @default(User)
-  tasks      tasks[]
-}
-
-enum user_role {
-  Admin
-  User
+enum task_status {
+  Pending
+  In_progress
+  Completed
 }
