@@ -12,6 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import { useRouter } from "next/navigation"; 
 import axios from 'axios';
+import toast from "react-hot-toast";
 
 interface AppLayoutProps {
   initialData: TaskFormValues[];
@@ -34,15 +35,42 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ initialData }) => {
 
   const onSubmit = async (data: TaskFormValues) => {
     try {
+      
       const response = await axios.post('/api/tasks',data)
-      console.log('res: ',response)
       setTodos((prevTodos) => [...prevTodos, data]);
+      
+      const message = response.data.message;
+      toast.success(message);
+
+      router.refresh();
       form.reset();
-    } catch (error) {
+    } catch (error:any) {
+      toast.error(error)
       console.error(error);
     }
   };
-
+  
+  const handleCheckToggle = async (taskId: string) => {
+    try {
+      setTodos((prevTodos) =>
+        prevTodos.map((todo) =>
+          todo.task_id === taskId
+            ? { ...todo, status: todo.status === 'Completed' ? 'Pending' : 'Completed' }
+            : todo
+        )
+      );
+  
+      const response = await axios.put(`/api/tasks/${taskId}`, { status: 'Completed' }); 
+      const message = response.data.message || 'Task updated successfully';
+      
+      toast.success(message);
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || 'An error occurred';
+      toast.error(errorMessage);
+      console.error(error);
+    }
+  };
+  
   return (
     <div className="flex flex-col h-screen bg-slate-50">
       <header className="bg-primary text-primary-foreground py-4 px-6 shadow flex justify-between">
@@ -106,8 +134,9 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ initialData }) => {
             <li key={todo.task_id} className="flex items-center justify-between rounded-md bg-card px-4 py-2 shadow-sm">
               <div className="flex items-center space-x-3">
                 <Checkbox
-                  id={`todo-${todo.task_id}`}
-                  checked={todo.status === "Completed"}
+                  // id={`todo-${todo.task_id}`}
+                  // checked={todo.status === "Completed"}
+                  onCheckedChange={() => handleCheckToggle(todo.task_id)}
                 />
                 <label
                   htmlFor={`todo-${todo.task_id}`}
