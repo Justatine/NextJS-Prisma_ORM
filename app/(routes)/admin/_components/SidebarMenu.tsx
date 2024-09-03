@@ -30,11 +30,11 @@ export default function SidebarMenu() {
         icon: <LayoutDashboard size={20} className="hover:animate-spin" />,
         text: "Dashboard",
       },
-      // {
-      //   link: "/projects",
-      //   icon: <ClipboardList size={20} />,
-      //   text: "Projects",
-      // },
+      {
+        link: "/admin/users",
+        icon: <User size={20} />,
+        text: "Users",
+      },
       // {
       //   link: "/members",
       //   icon: <User size={20} />,
