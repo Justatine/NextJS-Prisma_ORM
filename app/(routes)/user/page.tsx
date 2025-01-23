@@ -13,8 +13,7 @@ export type Task = {
 };
 
 const UserPage = async () => {
-const userId = auth.userId;  
-// const { userId } = auth();
+const { userId } = await auth();
 
   if (!userId) {
     return new NextResponse("Unauthenticated", { status: 401 });
